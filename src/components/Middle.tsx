@@ -22,7 +22,7 @@ export function Services() {
       <div className="mt-12 grid gap-5 md:grid-cols-6">
         {t.services.items.map((s, i) => {
           const I = SERVICE_ICONS[i];
-          const wide = i < 2;
+          const wide = true;
           return (
             <Reveal key={s.t} delay={i * 80} className={wide ? "md:col-span-3" : "md:col-span-2"}>
               <article className="tilt group relative h-full overflow-hidden rounded-3xl bg-ink text-white">

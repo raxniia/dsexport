@@ -22,7 +22,7 @@ export function Nav() {
     return () => window.removeEventListener("scroll", f);
   }, []);
   const links = [
-    ["#home", t.nav.home], ["#bulletin", t.nav.bulletin], ["#services", t.nav.services], ["#assistant", t.nav.assistant],
+    ["#home", t.nav.home], ["#bulletin", t.nav.bulletin], ["#invest", t.nav.invest], ["#services", t.nav.services], ["#assistant", t.nav.assistant],
     ["#tools", t.nav.tools], ["#knowledge", t.nav.knowledge], ["#network", t.nav.network], ["#contact", t.nav.contact],
   ];
   const dark = !scrolled && !open;
