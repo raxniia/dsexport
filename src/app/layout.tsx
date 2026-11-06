@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Said Dellioua — DS EXPORT",
     description: "From Algeria to the World. Guidance. Connections. Opportunities.",
-    images: ["/img/said.webp"],
+    images: ["/brand/logo-stacked-dark.svg"],
     type: "website",
   },
   icons: { icon: "/icon.svg" },

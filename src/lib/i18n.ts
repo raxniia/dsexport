@@ -1,6 +1,13 @@
 export type Lang = "fr" | "ar" | "en";
 
 const fr = {
+  events: {
+    kicker: "Sur le terrain",
+    title: "Événements & rencontres",
+    sub: "Salons, réunions officielles et rencontres d’affaires auxquels DS EXPORT a participé.",
+    read: "Voir l’article et les photos",
+    close: "Fermer",
+  },
   flags: {
     label: "🌍 Vers les marchés du monde",
   },
@@ -67,7 +74,7 @@ const fr = {
     interest: "Bonjour, je suis intéressé(e) par ce produit algérien :",
     items: [["🌴","Dattes Deglet Nour"],["🫒","Huile d’olive"],["🍊","Agrumes"],["🍯","Miel naturel"],["🍝","Couscous & pâtes"],["🥫","Conserves de tomate"],["💧","Eaux minérales"],["🍪","Biscuiterie & confiserie"],["🧱","Ciment & matériaux"],["🏺","Céramique & poterie"],["🧶","Tapis & artisanat"],["🔌","Électroménager"]],
   },
-  nav: { home: "Accueil", bulletin: "Bulletin", invest: "Investir", services: "Services", assistant: "Assistant IA", tools: "Outils", knowledge: "Savoir", network: "Réseau", contact: "Contact", cta: "Prendre RDV" },
+  nav: { home: "Accueil", bulletin: "Bulletin", invest: "Investir", events: "Événements", services: "Services", assistant: "Assistant IA", tools: "Outils", knowledge: "Savoir", network: "Réseau", contact: "Contact", cta: "Prendre RDV" },
   hero: {
     hello: "Commerce extérieur",
     iam: "Je suis",
@@ -246,6 +253,13 @@ const fr = {
 type Dict = typeof fr;
 
 const en: Dict = {
+  events: {
+    kicker: "On the ground",
+    title: "Events & meetings",
+    sub: "Trade fairs, official meetings and business encounters DS EXPORT took part in.",
+    read: "See the article and photos",
+    close: "Close",
+  },
   flags: {
     label: "🌍 To markets worldwide",
   },
@@ -312,7 +326,7 @@ const en: Dict = {
     interest: "Hello, I am interested in this Algerian product:",
     items: [["🌴","Deglet Nour dates"],["🫒","Olive oil"],["🍊","Citrus fruits"],["🍯","Natural honey"],["🍝","Couscous & pasta"],["🥫","Tomato preserves"],["💧","Mineral water"],["🍪","Biscuits & confectionery"],["🧱","Cement & materials"],["🏺","Ceramics & pottery"],["🧶","Carpets & crafts"],["🔌","Home appliances"]],
   },
-  nav: { home: "Home", bulletin: "Bulletin", invest: "Invest", services: "Services", assistant: "AI Assistant", tools: "Tools", knowledge: "Knowledge", network: "Network", contact: "Contact", cta: "Book a call" },
+  nav: { home: "Home", bulletin: "Bulletin", invest: "Invest", events: "Events", services: "Services", assistant: "AI Assistant", tools: "Tools", knowledge: "Knowledge", network: "Network", contact: "Contact", cta: "Book a call" },
   hero: {
     hello: "International trade",
     iam: "I’m",
@@ -489,6 +503,13 @@ const en: Dict = {
 };
 
 const ar: Dict = {
+  events: {
+    kicker: "في الميدان",
+    title: "الفعاليات واللقاءات",
+    sub: "معارض واجتماعات رسمية ولقاءات أعمال شاركت فيها DS EXPORT.",
+    read: "شاهد المقال والصور",
+    close: "إغلاق",
+  },
   flags: {
     label: "🌍 نحو أسواق العالم",
   },
@@ -555,7 +576,7 @@ const ar: Dict = {
     interest: "السلام عليكم، أنا مهتم بهذا المنتج الجزائري:",
     items: [["🌴","تمور دقلة نور"],["🫒","زيت الزيتون"],["🍊","الحمضيات"],["🍯","العسل الطبيعي"],["🍝","الكسكسي والعجائن"],["🥫","مصبرات الطماطم"],["💧","المياه المعدنية"],["🍪","البسكويت والحلويات"],["🧱","الإسمنت ومواد البناء"],["🏺","الخزف والفخار"],["🧶","الزرابي والصناعة التقليدية"],["🔌","الأجهزة الكهرومنزلية"]],
   },
-  nav: { home: "الرئيسية", bulletin: "النشرة", invest: "استثمر", services: "الخدمات", assistant: "المساعد الذكي", tools: "الأدوات", knowledge: "المعرفة", network: "الشبكة", contact: "اتصل بنا", cta: "احجز موعدًا" },
+  nav: { home: "الرئيسية", bulletin: "النشرة", invest: "استثمر", events: "الفعاليات", services: "الخدمات", assistant: "المساعد الذكي", tools: "الأدوات", knowledge: "المعرفة", network: "الشبكة", contact: "اتصل بنا", cta: "احجز موعدًا" },
   hero: {
     hello: "التجارة الخارجية",
     iam: "أنا",
