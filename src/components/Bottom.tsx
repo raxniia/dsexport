@@ -258,8 +258,21 @@ export function Network() {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={IMAGES.stacked} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-10" />
       <div className="relative mx-auto max-w-6xl">
-        <Kicker light>{t.network.kicker}</Kicker>
-        <Title light a={t.network.title} />
+        <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end">
+          <div>
+            <div className="flex flex-wrap items-center gap-2">
+              <Kicker light>{t.network.kicker}</Kicker>
+              <span className="rounded-full gold-bg px-3 py-1 text-xs font-bold text-ink">{t.network.free}</span>
+            </div>
+            <Title light a={t.network.title} />
+            <p className="mt-5 max-w-xl leading-relaxed text-white/75">{t.network.sub}</p>
+          </div>
+          <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+            {t.network.benefits.map((b) => (
+              <li key={b} className="glass rounded-2xl px-4 py-3 text-sm font-semibold">{b}</li>
+            ))}
+          </ul>
+        </div>
         <div className="mt-10 grid gap-3 md:grid-cols-3">
           {kinds.map(({ id, icon: I, txt }) => (
             <button key={id} onClick={() => setKind(id)} className={`rounded-2xl p-6 text-start transition ${kind === id ? "gold-bg text-ink shadow-xl shadow-brand/20" : "glass hover:bg-white/15"}`}>

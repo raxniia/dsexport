@@ -79,6 +79,7 @@ const ORG: Record<string, { ar: string; en: string }> = {
   "Ministère du Commerce": { ar: "وزارة التجارة", en: "Ministry of Commerce" },
   "Port de Ténès": { ar: "ميناء تنس", en: "Port of Ténès" },
   "Ports": { ar: "الموانئ", en: "Ports" },
+  "Ministère des Finances": { ar: "وزارة المالية", en: "Ministry of Finance" },
   "Banque d’Algérie": { ar: "بنك الجزائر", en: "Bank of Algeria" },
   "Banque d'Algérie": { ar: "بنك الجزائر", en: "Bank of Algeria" },
   "Douanes algériennes": { ar: "الجمارك الجزائرية", en: "Algerian Customs" },

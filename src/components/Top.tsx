@@ -182,7 +182,7 @@ export function Journey() {
           <h2 className="mt-4 text-3xl font-bold sm:text-5xl">{t.journey.title}</h2>
           <p className="mx-auto mt-4 max-w-lg text-muted">{t.journey.sub}</p>
         </Reveal>
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {t.journey.options.map((o, i) => {
             const I = icons[i];
             return (

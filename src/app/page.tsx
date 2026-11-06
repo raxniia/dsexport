@@ -15,6 +15,7 @@ export default function Home() {
         <NewsTicker />
         <Marquee />
         <ProductBand />
+        <Network />
         <Journey />
         <Bulletin />
         <Services />
@@ -24,7 +25,6 @@ export default function Home() {
         <Tools />
         <Knowledge />
         <Updates />
-        <Network />
         <Booking />
         <Contact />
       </main>
