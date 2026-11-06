@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { createClient, type Session } from "@supabase/supabase-js";
 import {
   Users, CalendarDays, Globe2, Briefcase, Gauge, Bot, Newspaper, LogOut, RefreshCw, Download,
-  Search, MessageCircle, Phone, Mail, Check, Trash2, Loader2, Lock, Eye, EyeOff, Plus, X, ImagePlus, Images,
+  Search, MessageCircle, Phone, Mail, Check, Trash2, Loader2, Lock, Eye, EyeOff, Plus, X, ImagePlus, Images, Megaphone,
 } from "lucide-react";
 
 // Same public Supabase project as the site. Data is protected by RLS:
@@ -15,7 +15,7 @@ const supabase = createClient(
 );
 
 type Row = Record<string, unknown> & { id: string; created_at: string };
-type TabKey = "network" | "bookings" | "investors" | "projects" | "readiness" | "assistant" | "news" | "posts";
+type TabKey = "network" | "bookings" | "investors" | "projects" | "readiness" | "assistant" | "news" | "posts" | "products";
 
 const TABS: { key: TabKey; table: string; label: string; icon: React.ElementType; cols: [string, string][]; flag?: { col: string; on: string; off: string } }[] = [
   { key: "network", table: "network_members", label: "Réseau", icon: Users, flag: { col: "approved", on: "Publié", off: "En attente" },
@@ -34,6 +34,8 @@ const TABS: { key: TabKey; table: string; label: string; icon: React.ElementType
     cols: [["bulletin_date", "Bulletin"], ["category", "Catégorie"], ["organisme", "Organisme"], ["title_fr", "Titre"], ["source_label", "Source"], ["url", "Lien"]] },
   { key: "posts", table: "posts", label: "Articles & événements", icon: Images, flag: { col: "published", on: "En ligne", off: "Masqué" },
     cols: [["event_date", "Date"], ["cover_url", "Photo"], ["title", "Titre"], ["location", "Lieu"], ["gallery", "Galerie"], ["body", "Texte"]] },
+  { key: "products", table: "product_ads", label: "Produits (bande)", icon: Megaphone, flag: { col: "published", on: "En ligne", off: "Masqué" },
+    cols: [["photo_url", "Photo"], ["name_fr", "Produit"], ["name_ar", "Nom (arabe)"], ["company", "Entreprise"], ["sort", "Ordre"], ["created_at", "Ajouté le"]] },
 ];
 
 type FieldType = "text" | "email" | "tel" | "textarea" | "select" | "date" | "time" | "number" | "checkbox" | "url" | "image" | "images";
@@ -86,6 +88,13 @@ const FIELDS: Partial<Record<TabKey, Field[]>> = {
     { k: "summary_en", l: "Résumé (anglais)", t: "textarea", full: true },
     { k: "source_label", l: "Source (ex. APS)", t: "text", req: true }, { k: "url", l: "Lien de la source (https://…)", t: "url", req: true },
     { k: "is_official", l: "Source officielle", t: "checkbox", def: false }, { k: "published", l: "Afficher sur le site", t: "checkbox", def: true },
+  ],
+  products: [
+    { k: "photo_url", l: "Photo du produit (carrée de préférence)", t: "image", req: true, full: true },
+    { k: "name_fr", l: "Nom du produit (français)", t: "text", req: true }, { k: "name_ar", l: "Nom (arabe)", t: "text" },
+    { k: "name_en", l: "Nom (anglais)", t: "text" }, { k: "company", l: "Entreprise / marque", t: "text" },
+    { k: "link", l: "Lien (optionnel, sinon WhatsApp)", t: "url" }, { k: "sort", l: "Ordre d’affichage (0 = en premier)", t: "number", def: 0 },
+    { k: "published", l: "Afficher dans la bande", t: "checkbox", def: true },
   ],
   posts: [
     { k: "title", l: "Titre", t: "text", req: true, full: true },
@@ -144,6 +153,8 @@ function AddModal({ tab, label, onClose, onSaved }: { tab: TabKey; label: string
 
   const save = async (e: React.FormEvent) => {
     e.preventDefault();
+    const missing = fields.find((f) => f.req && (f.t === "image" ? !v[f.k] : false));
+    if (missing) { setError(`Ajoutez : ${missing.l}`); return; }
     setBusy(true); setError("");
     const payload: Record<string, unknown> = {};
     fields.forEach((f) => {
@@ -151,6 +162,7 @@ function AddModal({ tab, label, onClose, onSaved }: { tab: TabKey; label: string
       if (f.t === "checkbox") payload[f.k] = !!x;
       else if (f.t === "images") payload[f.k] = x || [];
       else if (f.k === "duration") payload[f.k] = Number(x || 30);
+      else if (f.t === "number") payload[f.k] = Number(x || 0);
       else payload[f.k] = typeof x === "string" ? (x.trim() || null) : x ?? null;
     });
     const { data, error } = await supabase.from(table).insert(payload).select("*").single();
@@ -342,7 +354,7 @@ function Dashboard({ email }: { email: string }) {
   const load = useCallback(async () => {
     setLoading(true);
     const res = await Promise.all(TABS.map((t) =>
-      supabase.from(t.table).select("*").order(t.key === "news" ? "bulletin_date" : t.key === "posts" ? "event_date" : "created_at", { ascending: false }).limit(1000)));
+      supabase.from(t.table).select("*").order(t.key === "news" ? "bulletin_date" : t.key === "posts" ? "event_date" : t.key === "products" ? "sort" : "created_at", { ascending: t.key === "products" }).limit(1000)));
     const next: Partial<Record<TabKey, Row[]>> = {};
     res.forEach((r, i) => { next[TABS[i].key] = (r.data as Row[]) || []; });
     setData(next);
@@ -384,7 +396,7 @@ function Dashboard({ email }: { email: string }) {
     a.click();
   };
 
-  const canDelete = ["network", "bookings", "investors", "projects", "news", "posts"].includes(tab);
+  const canDelete = ["network", "bookings", "investors", "projects", "news", "posts", "products"].includes(tab);
   const privateCount = (["network", "bookings", "investors", "projects", "readiness", "assistant"] as TabKey[]).reduce((n, k) => n + (data[k]?.length || 0), 0);
 
   return (
@@ -415,7 +427,7 @@ function Dashboard({ email }: { email: string }) {
         {err && <div className="mb-4 rounded-2xl bg-red-50 p-3 text-sm text-red-700">{err}</div>}
 
         {/* stat cards */}
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-9">
           {TABS.map((t) => {
             const I = t.icon;
             const list = data[t.key] || [];
@@ -484,10 +496,10 @@ function Dashboard({ email }: { email: string }) {
                           <select value={String(r.status || "new")} onChange={(e) => update(r.id, { status: e.target.value })} className="rounded-lg border border-ink/10 bg-white px-2 py-1 text-xs font-semibold">
                             {["new", "confirmed", "done", "cancelled"].map((s) => <option key={s} value={s}>{LABELS[s]}</option>)}
                           </select>
-                        ) : k === "cover_url" ? (
-                          r.cover_url ? (
+                        ) : k === "cover_url" || k === "photo_url" ? (
+                          r[k] ? (
                             // eslint-disable-next-line @next/next/no-img-element
-                            <img src={String(r.cover_url)} alt="" className="h-12 w-16 rounded-md object-cover" />
+                            <img src={String(r[k])} alt="" className="h-12 w-16 rounded-md object-cover" />
                           ) : <span className="text-muted">—</span>
                         ) : k === "gallery" ? (
                           <span>{Array.isArray(r.gallery) ? `${r.gallery.length} photo(s)` : "—"}</span>

@@ -4,6 +4,7 @@ import { Menu, X, MessageCircle, Phone, MapPin, Globe2, Ship, PackageSearch, Han
 import { useLang } from "./LangProvider";
 import { PillButton, Kicker, Reveal } from "./ui";
 import { IMAGES, SITE, waLink } from "@/lib/site";
+import { supabase } from "@/lib/supabase";
 import type { Lang } from "@/lib/i18n";
 
 const LANGS: { id: Lang; label: string }[] = [
@@ -196,9 +197,40 @@ export function Journey() {
   );
 }
 
+// Default photos (free Unsplash photos, illustrative) — same order as t.products.items
+const U = (id: string) => `https://images.unsplash.com/photo-${id}?w=160&h=160&fit=crop&auto=format&q=70`;
+const PRODUCT_PHOTOS = [
+  U("1771231591559-d19c89ad118a"), // dattes
+  U("1474979266404-7eaacbcd87c5"), // huile d'olive
+  U("1611080626919-7cf5a9dbab5b"), // agrumes
+  U("1587049352851-8d4e89133924"), // miel
+  U("1749993086443-93a5a88eb4c2"), // couscous
+  U("1752627559682-9b7f0f0ded4e"), // tomate
+  U("1616118132534-381148898bb4"), // eau minérale
+  U("1558961363-fa8fdf82db35"), // biscuits
+  U("1773394089934-3e29f2a3d6a9"), // ciment
+  U("1597696929736-6d13bed8e6a8"), // céramique
+  U("1723136240443-0ddeda3284eb"), // tapis
+  U("1632923565835-6582b54f2105"), // électroménager
+];
+
+type ProductAd = { id: string; name_fr: string; name_ar: string | null; name_en: string | null; company: string | null; photo_url: string; link: string | null };
+
 export function ProductBand() {
-  const { t } = useLang();
-  const items = [...t.products.items, ...t.products.items];
+  const { t, lang } = useLang();
+  const [ads, setAds] = useState<ProductAd[]>([]);
+  useEffect(() => {
+    supabase.from("product_ads").select("id,name_fr,name_ar,name_en,company,photo_url,link")
+      .eq("published", true).order("sort", { ascending: true }).order("created_at", { ascending: false }).limit(40)
+      .then(({ data }) => setAds((data as ProductAd[]) || []), () => {});
+  }, []);
+
+  const base = ads.length
+    ? ads.map((a) => ({ name: (lang === "ar" ? a.name_ar : lang === "en" ? a.name_en : null) || a.name_fr, photo: a.photo_url, company: a.company, link: a.link }))
+    : t.products.items.map(([, name], i) => ({ name, photo: PRODUCT_PHOTOS[i % PRODUCT_PHOTOS.length], company: null as string | null, link: null as string | null }));
+  const list = base.length < 8 ? [...base, ...base, ...base] : base;
+  const items = [...list, ...list];
+
   return (
     <div className="group relative z-10 flex items-stretch overflow-hidden gold-bg text-ink shadow-[0_10px_30px_-10px_rgba(201,162,39,.6)]" dir="ltr">
       <div className="relative z-20 hidden shrink-0 items-center gap-2 bg-ink px-5 font-display text-sm font-bold text-gold-light sm:flex">
@@ -207,13 +239,17 @@ export function ProductBand() {
         <span className="whitespace-nowrap">{t.products.label.replace("🇩🇿", "").trim()}</span>
         <span className="absolute -right-3 top-0 h-full w-6 skew-x-[-12deg] bg-ink" />
       </div>
-      <div className="relative flex-1 overflow-hidden py-3">
+      <div className="relative flex-1 overflow-hidden py-2.5">
         <div className="marquee-rev flex w-max animate-marquee items-center gap-3 whitespace-nowrap group-hover:[animation-play-state:paused]">
-          {items.map(([emoji, name], i) => (
-            <a key={i} href={waLink(`${t.products.interest} ${name}`)} target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-2.5 rounded-full bg-white/35 py-1.5 ps-1.5 pe-4 font-display text-[15px] font-semibold ring-1 ring-ink/10 backdrop-blur transition hover:bg-ink hover:text-gold-light">
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-ink text-base">{emoji}</span>
-              {name}
+          {items.map((p, i) => (
+            <a key={i} href={p.link || waLink(`${t.products.interest} ${p.name}${p.company ? ` (${p.company})` : ""}`)} target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-3 rounded-full bg-white/40 py-1.5 ps-1.5 pe-5 ring-1 ring-ink/10 backdrop-blur transition hover:bg-ink hover:text-gold-light">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={p.photo} alt={p.name} width={44} height={44} loading="lazy" className="h-11 w-11 rounded-full object-cover ring-2 ring-white shadow" />
+              <span className="flex flex-col leading-tight" dir="auto">
+                <span className="font-display text-[15px] font-semibold">{p.name}</span>
+                {p.company && <span className="text-[11px] font-medium opacity-70">{p.company}</span>}
+              </span>
             </a>
           ))}
         </div>
