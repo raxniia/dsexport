@@ -285,6 +285,13 @@ export function Network() {
         <div className="mt-6 grid gap-6 lg:grid-cols-[1.3fr_1fr]">
           <form onSubmit={submit} className="gold-border rounded-[28px] bg-cream p-6 text-ink sm:p-8">
             <p className="text-xl font-extrabold">{t.network.join} — <span className="text-brand">{kinds.find((k) => k.id === kind)!.txt[0]}</span></p>
+            <div className="mt-4 flex gap-3 rounded-2xl border border-brand/40 bg-brand/10 p-4">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full gold-bg text-lg">🔔</span>
+              <div>
+                <p className="font-display font-bold text-ink">{t.network.priorityTitle}</p>
+                <p className="mt-0.5 text-sm leading-relaxed text-ink/75">{t.network.priorityText}</p>
+              </div>
+            </div>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               <input required minLength={2} maxLength={160} className="field" placeholder={`${t.network.company} *`} {...f("company")} />
               <input required minLength={2} maxLength={120} className="field" placeholder={`${t.network.name} *`} {...f("contact_name")} />
@@ -296,6 +303,7 @@ export function Network() {
             </div>
             <div className="mt-5 flex flex-wrap items-center gap-3">
               <PillButton type="submit" variant="dark" disabled={status === "sending"}>{status === "sending" ? t.common.sending : t.network.submit}</PillButton>
+              {status === "idle" && <p className="text-xs font-semibold text-muted">{t.network.priorityHint}</p>}
               {status === "ok" && <p className="flex items-center gap-1.5 text-sm font-semibold text-emerald-600"><Check size={16} />{t.network.ok}</p>}
               {status === "err" && <p className="flex items-center gap-1.5 text-sm font-semibold text-red-600"><X size={16} />{t.common.error}</p>}
             </div>
