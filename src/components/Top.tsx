@@ -31,8 +31,7 @@ export function Nav() {
       <nav className={`mx-auto flex max-w-6xl items-center justify-between rounded-2xl px-3 py-2.5 transition-all duration-500 ${dark ? "glass" : "glass-light"}`}>
         <a href="#home" className="flex items-center gap-2.5 ps-1">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/logo-mark.svg" alt="" width={40} height={40} className="h-10 w-10" />
-          <span className={`font-display text-lg font-bold tracking-wide ${dark ? "text-white" : "text-ink"}`}>DS <span className="gold-text">EXPORT</span></span>
+          <img src="/brand/ds-export-logo-small.webp" alt="DS EXPORT" width={480} height={219} className="h-10 w-auto rounded-lg" />
         </a>
         <ul className={`hidden items-center gap-6 text-[13px] font-medium lg:flex ${dark ? "text-white/85" : "text-ink/80"}`}>
           {links.map(([h, l]) => <li key={h}><a href={h} className="relative transition-colors hover:text-brand after:absolute after:-bottom-1 after:start-0 after:h-px after:w-0 after:bg-brand after:transition-all hover:after:w-full">{l}</a></li>)}
@@ -118,24 +117,16 @@ export function Hero() {
           </Reveal>
         </div>
 
-        <Reveal delay={250} className="relative mx-auto w-full max-w-[400px]">
+        <Reveal delay={250} className="relative mx-auto w-full max-w-[460px]">
           <div className="absolute -inset-6 rounded-[40px] bg-brand/20 blur-3xl" />
           <div className="gold-border relative overflow-hidden rounded-[32px] bg-gradient-to-b from-navy-3 to-ink">
             <div className="absolute inset-x-0 top-0 h-2/3 bg-[radial-gradient(circle_at_50%_30%,rgba(232,199,102,.35),transparent_65%)]" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/logo-stacked-dark.svg" alt="DS EXPORT — From Algeria to the World" width={300} height={310} className="relative mx-auto w-[82%] px-2 pb-28 pt-10" />
+            <img src="/brand/ds-export-logo.webp" alt="DS EXPORT" width={1080} height={720} className="relative mx-auto w-full pb-24" />
             <div className="glass absolute inset-x-4 bottom-4 rounded-2xl p-4">
               <p className="font-display text-xl font-bold">{t.hero.name}</p>
               <p className="text-sm text-gold-light">{t.hero.role}</p>
             </div>
-          </div>
-          <div className="glass absolute -start-6 top-12 hidden animate-float items-center gap-2 rounded-2xl px-4 py-3 sm:flex">
-            <span className="grid h-9 w-9 place-items-center rounded-xl gold-bg text-ink"><Ship size={16} /></span>
-            <span className="text-sm font-semibold">Export</span>
-          </div>
-          <div className="glass absolute -end-6 top-4 hidden animate-float items-center gap-2 rounded-2xl px-4 py-3 [animation-delay:-3s] sm:flex">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-white text-base">🇩🇿</span>
-            <span className="text-sm font-semibold">Made in Algeria</span>
           </div>
         </Reveal>
       </div>

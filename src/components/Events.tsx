@@ -61,7 +61,7 @@ export function Events() {
                       <img src={p.cover_url} alt="" loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
                     ) : (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src="/brand/logo-stacked-dark.svg" alt="" className="mx-auto h-full w-1/2 object-contain p-6" />
+                      <img src="/brand/ds-export-logo.webp" alt="" className="h-full w-full object-cover" />
                     )}
                     {n > 1 && <span className="absolute end-3 top-3 inline-flex items-center gap-1 rounded-full bg-ink/80 px-2.5 py-1 text-[11px] font-semibold text-white"><Images size={12} />{n}</span>}
                   </div>
