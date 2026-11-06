@@ -1,6 +1,9 @@
 export type Lang = "fr" | "ar" | "en";
 
 const fr = {
+  flags: {
+    label: "🌍 Vers les marchés du monde",
+  },
   invest: {
     kicker: "Invest in Algeria",
     title: "Investir en Algérie avec un partenaire local de confiance",
@@ -34,6 +37,8 @@ const fr = {
     amounts: { "lt100k": "< 100 000 $", "100k-500k": "100 000 – 500 000 $", "500k-2m": "500 000 – 2 M$", "2m-10m": "2 – 10 M$", "gt10m": "> 10 M$", undisclosed: "Non communiqué" },
     stages: { idea: "Idée / étude", running: "Activité en cours", expansion: "Extension", export: "Déjà exportateur" },
     submit: "Envoyer",
+    waSend: "Envoyer aussi sur WhatsApp",
+    waNote: "Votre demande est enregistrée chez DS EXPORT. Pour une réponse plus rapide, envoyez-la aussi directement sur WhatsApp.",
     okInvestor: "Merci ! Votre profil a bien été reçu. DS EXPORT vous recontactera avec des opportunités adaptées.",
     okProject: "Merci ! Votre projet a été reçu. Il sera publié de façon anonyme après vérification.",
     disclaimer: "DS EXPORT agit comme facilitateur de mise en relation. Ce n’est pas un conseil financier ou juridique : vérifiez toujours le cadre légal auprès de l’AAPI et d’un avocat.",
@@ -241,6 +246,9 @@ const fr = {
 type Dict = typeof fr;
 
 const en: Dict = {
+  flags: {
+    label: "🌍 To markets worldwide",
+  },
   invest: {
     kicker: "Invest in Algeria",
     title: "Invest in Algeria with a trusted local partner",
@@ -274,6 +282,8 @@ const en: Dict = {
     amounts: { "lt100k": "< $100,000", "100k-500k": "$100,000 – 500,000", "500k-2m": "$500,000 – 2M", "2m-10m": "$2 – 10M", "gt10m": "> $10M", undisclosed: "Undisclosed" },
     stages: { idea: "Idea / study", running: "Operating", expansion: "Expansion", export: "Already exporting" },
     submit: "Send",
+    waSend: "Also send on WhatsApp",
+    waNote: "Your request is saved at DS EXPORT. For a faster reply, also send it directly on WhatsApp.",
     okInvestor: "Thank you! Your profile has been received. DS EXPORT will get back to you with matching opportunities.",
     okProject: "Thank you! Your project has been received. It will be published anonymously after review.",
     disclaimer: "DS EXPORT acts as an introduction facilitator. This is not financial or legal advice: always check the legal framework with AAPI and a lawyer.",
@@ -479,6 +489,9 @@ const en: Dict = {
 };
 
 const ar: Dict = {
+  flags: {
+    label: "🌍 نحو أسواق العالم",
+  },
   invest: {
     kicker: "استثمر في الجزائر",
     title: "استثمر في الجزائر مع شريك محلي موثوق",
@@ -512,6 +525,8 @@ const ar: Dict = {
     amounts: { "lt100k": "أقل من 100 ألف $", "100k-500k": "100 ألف – 500 ألف $", "500k-2m": "500 ألف – 2 مليون $", "2m-10m": "2 – 10 ملايين $", "gt10m": "أكثر من 10 ملايين $", undisclosed: "غير مُعلن" },
     stages: { idea: "فكرة / دراسة", running: "نشاط قائم", expansion: "توسعة", export: "مصدّر حاليًا" },
     submit: "إرسال",
+    waSend: "أرسلها أيضًا عبر واتساب",
+    waNote: "تم تسجيل طلبك لدى DS EXPORT. للحصول على رد أسرع، أرسله أيضًا مباشرة عبر واتساب.",
     okInvestor: "شكرًا! تم استلام ملفك. ستتواصل معك DS EXPORT بفرص مناسبة.",
     okProject: "شكرًا! تم استلام مشروعك، وسيُنشر دون ذكر اسم المؤسسة بعد التحقق.",
     disclaimer: "تعمل DS EXPORT كوسيط للربط فقط. هذه ليست استشارة مالية أو قانونية: تحقق دائمًا من الإطار القانوني لدى AAPI ومحامٍ.",

@@ -209,7 +209,9 @@ export function ProductBand() {
   return (
     <div className="group relative z-10 flex items-stretch overflow-hidden gold-bg text-ink shadow-[0_10px_30px_-10px_rgba(201,162,39,.6)]" dir="ltr">
       <div className="relative z-20 hidden shrink-0 items-center gap-2 bg-ink px-5 font-display text-sm font-bold text-gold-light sm:flex">
-        <span className="whitespace-nowrap">{t.products.label}</span>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/flags/dz.svg" width={24} height={18} alt="" className="h-[18px] w-6 rounded-[2px] object-cover" />
+        <span className="whitespace-nowrap">{t.products.label.replace("🇩🇿", "").trim()}</span>
         <span className="absolute -right-3 top-0 h-full w-6 skew-x-[-12deg] bg-ink" />
       </div>
       <div className="relative flex-1 overflow-hidden py-3">
@@ -229,6 +231,36 @@ export function ProductBand() {
         className="relative z-20 flex shrink-0 items-center gap-2 bg-ink px-4 text-xs font-bold text-white transition hover:text-gold-light sm:px-5 sm:text-sm">
         <Megaphone size={16} className="text-brand" /><span className="hidden whitespace-nowrap sm:inline">{t.products.cta}</span>
       </a>
+    </div>
+  );
+}
+
+const FLAG_CODES = ["fr", "es", "it", "de", "be", "pt", "nl", "gb", "tr", "ru", "cn", "us", "ca", "br", "in", "sa", "ae", "qa", "kw", "jo", "eg", "tn", "ly", "mr", "sn", "ml", "ne", "ng", "ci", "cm"];
+
+export function FlagsBand() {
+  const { t, lang } = useLang();
+  let names: Intl.DisplayNames | null = null;
+  try { names = new Intl.DisplayNames([lang === "ar" ? "ar" : lang === "en" ? "en" : "fr"], { type: "region" }); } catch {}
+  const loop = [...FLAG_CODES, ...FLAG_CODES];
+  return (
+    <div className="group relative z-10 flex items-stretch overflow-hidden border-b border-ink/10 bg-white" dir="ltr">
+      <div className="relative z-20 hidden shrink-0 items-center bg-cream px-5 font-display text-sm font-bold text-ink sm:flex">
+        <span className="whitespace-nowrap">{t.flags.label}</span>
+      </div>
+      <div className="relative flex-1 overflow-hidden py-2.5">
+        <div className="flex w-max animate-marquee items-center gap-6 whitespace-nowrap group-hover:[animation-play-state:paused]" style={{ animationDuration: "70s" }}>
+          {loop.map((c, i) => (
+            <span key={i} className="flex items-center gap-2 text-sm font-medium text-ink/80">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`/flags/${c}.svg`} width={28} height={21} alt="" loading="lazy"
+                className="h-[21px] w-7 rounded-[3px] object-cover shadow-sm ring-1 ring-ink/10" />
+              {names?.of(c.toUpperCase()) || c.toUpperCase()}
+            </span>
+          ))}
+        </div>
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-white to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-white to-transparent" />
+      </div>
     </div>
   );
 }

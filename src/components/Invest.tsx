@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Handshake, Factory, PieChart, Truck, Sprout, Layers, Check, X, Lock, ExternalLink, MapPin, Globe2, Briefcase } from "lucide-react";
+import { Handshake, Factory, PieChart, Truck, Sprout, Layers, Check, X, Lock, ExternalLink, MapPin, Globe2, Briefcase, MessageCircle } from "lucide-react";
 import { useLang } from "./LangProvider";
 import { Kicker, PillButton, Reveal } from "./ui";
 import { supabase } from "@/lib/supabase";
@@ -18,6 +18,7 @@ export function Invest() {
   const [tab, setTab] = useState<"investor" | "project">("investor");
   const [projects, setProjects] = useState<Project[]>([]);
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "err">("idle");
+  const [sentMsg, setSentMsg] = useState("");
   const emptyInv = { full_name: "", organization: "", country: "", email: "", phone: "", sectors: "", ticket: "undisclosed", deal_type: "jv", message: "" };
   const emptyPrj = { company: "", contact_name: "", email: "", phone: "", wilaya: "", sector: "", title: "", description: "", amount_range: "undisclosed", deal_type: "offtake", stage: "running" };
   const [inv, setInv] = useState(emptyInv);
@@ -37,7 +38,14 @@ export function Invest() {
       ? await supabase.from("investor_profiles").insert({ ...clean(inv), lang })
       : await supabase.from("investment_projects").insert({ ...clean(prj), lang });
     setStatus(error ? "err" : "ok");
-    if (!error) { setInv(emptyInv); setPrj(emptyPrj); }
+    if (!error) {
+      const am = (x: string) => v.amounts[x as keyof typeof v.amounts] || x;
+      const dl = (x: string) => v.deals[x as DealKey]?.[0] || x;
+      setSentMsg(tab === "investor"
+        ? `${v.tabInvestor} — DS EXPORT\n${v.f.name}: ${inv.full_name}${inv.organization ? ` (${inv.organization})` : ""}\n${v.f.country}: ${inv.country}\n${v.f.email}: ${inv.email}${inv.phone ? `\n${v.f.phone}: ${inv.phone}` : ""}\n${v.f.sectors}: ${inv.sectors || "-"}\n${v.f.ticket}: ${am(inv.ticket)}\n${v.f.dealType}: ${dl(inv.deal_type)}${inv.message ? `\n${inv.message}` : ""}`
+        : `${v.tabProject} — DS EXPORT\n${v.f.company}: ${prj.company}\n${v.f.name}: ${prj.contact_name}\n${v.f.phone}: ${prj.phone}${prj.wilaya ? `\n${v.f.wilaya}: ${prj.wilaya}` : ""}\n${v.f.sector}: ${prj.sector}\n${v.f.title}: ${prj.title}\n${v.f.amount}: ${am(prj.amount_range)}\n${v.f.dealType}: ${dl(prj.deal_type)}${prj.description ? `\n${prj.description}` : ""}`);
+      setInv(emptyInv); setPrj(emptyPrj);
+    }
   };
   const fi = (k: keyof typeof emptyInv) => ({ value: inv[k], onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setInv({ ...inv, [k]: e.target.value }) });
   const fp = (k: keyof typeof emptyPrj) => ({ value: prj[k], onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setPrj({ ...prj, [k]: e.target.value }) });
@@ -187,6 +195,16 @@ export function Invest() {
             <div className="mt-5 flex flex-wrap items-center gap-3">
               <PillButton type="submit" variant="dark" disabled={status === "sending"}>{status === "sending" ? t.common.sending : v.submit}</PillButton>
               {status === "ok" && <p className="flex items-center gap-1.5 text-sm font-semibold text-emerald-700"><Check size={16} />{tab === "investor" ? v.okInvestor : v.okProject}</p>}
+            </div>
+            {status === "ok" && sentMsg && (
+              <div className="mt-4 flex flex-col gap-3 rounded-2xl bg-white p-4 ring-1 ring-emerald-600/20 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm text-ink/80">{v.waNote}</p>
+                <a href={waLink(sentMsg)} target="_blank" rel="noopener noreferrer" className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white hover:brightness-95">
+                  <MessageCircle size={16} />{v.waSend}
+                </a>
+              </div>
+            )}
+            <div className="hidden">
               {status === "err" && <p className="flex items-center gap-1.5 text-sm font-semibold text-red-600"><X size={16} />{t.common.error}</p>}
             </div>
             <p className="mt-4 text-xs text-muted">{v.disclaimer}</p>

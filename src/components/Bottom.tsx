@@ -231,6 +231,7 @@ export function Network() {
   const [kind, setKind] = useState<"exporter" | "importer" | "partner">("exporter");
   const [form, setForm] = useState({ company: "", contact_name: "", email: "", phone: "", country: "", sector: "", products: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "err">("idle");
+  const [sentMsg, setSentMsg] = useState("");
   const [members, setMembers] = useState<Member[]>([]);
 
   useEffect(() => {
@@ -243,7 +244,11 @@ export function Network() {
     setStatus("sending");
     const { error } = await supabase.from("network_members").insert({ kind, ...Object.fromEntries(Object.entries(form).map(([k, v]) => [k, v.trim() || null])) });
     setStatus(error ? "err" : "ok");
-    if (!error) setForm({ company: "", contact_name: "", email: "", phone: "", country: "", sector: "", products: "" });
+    if (!error) {
+      const kindLabel = kinds.find((k) => k.id === kind)!.txt[0];
+      setSentMsg(`${t.network.join} — ${kindLabel}\n${t.network.company}: ${form.company}\n${t.network.name}: ${form.contact_name}${form.phone ? `\n${t.network.phone}: ${form.phone}` : ""}${form.email ? `\n${t.network.email}: ${form.email}` : ""}${form.country ? `\n${t.network.country}: ${form.country}` : ""}${form.sector ? `\n${t.network.sector}: ${form.sector}` : ""}${form.products ? `\n${t.network.products}: ${form.products}` : ""}`);
+      setForm({ company: "", contact_name: "", email: "", phone: "", country: "", sector: "", products: "" });
+    }
   };
 
   const kinds = [
@@ -305,6 +310,16 @@ export function Network() {
               <PillButton type="submit" variant="dark" disabled={status === "sending"}>{status === "sending" ? t.common.sending : t.network.submit}</PillButton>
               {status === "idle" && <p className="text-xs font-semibold text-muted">{t.network.priorityHint}</p>}
               {status === "ok" && <p className="flex items-center gap-1.5 text-sm font-semibold text-emerald-600"><Check size={16} />{t.network.ok}</p>}
+            </div>
+            {status === "ok" && sentMsg && (
+              <div className="mt-4 flex flex-col gap-3 rounded-2xl bg-white p-4 ring-1 ring-emerald-600/20 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm text-ink/80">{t.invest.waNote}</p>
+                <a href={waLink(sentMsg)} target="_blank" rel="noopener noreferrer" className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white hover:brightness-95">
+                  <MessageCircle size={16} />{t.invest.waSend}
+                </a>
+              </div>
+            )}
+            <div className="hidden">
               {status === "err" && <p className="flex items-center gap-1.5 text-sm font-semibold text-red-600"><X size={16} />{t.common.error}</p>}
             </div>
           </form>
