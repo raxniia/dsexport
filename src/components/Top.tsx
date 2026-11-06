@@ -31,7 +31,8 @@ export function Nav() {
       <nav className={`mx-auto flex max-w-6xl items-center justify-between rounded-2xl px-3 py-2.5 transition-all duration-500 ${dark ? "glass" : "glass-light"}`}>
         <a href="#home" className="flex items-center gap-2.5 ps-1">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/ds-export-logo-small.webp" alt="DS EXPORT" width={480} height={219} className="h-10 w-auto rounded-lg" />
+          <img src="/brand/icon-round.png" alt="" width={44} height={44} className="h-11 w-11 rounded-full shadow-md" />
+          <span className={`font-display text-lg font-bold tracking-wide ${dark ? "text-white" : "text-ink"}`}>DS <span className="gold-text">EXPORT</span></span>
         </a>
         <ul className={`hidden items-center gap-6 text-[13px] font-medium lg:flex ${dark ? "text-white/85" : "text-ink/80"}`}>
           {links.map(([h, l]) => <li key={h}><a href={h} className="relative transition-colors hover:text-brand after:absolute after:-bottom-1 after:start-0 after:h-px after:w-0 after:bg-brand after:transition-all hover:after:w-full">{l}</a></li>)}
@@ -122,7 +123,7 @@ export function Hero() {
           <div className="gold-border relative overflow-hidden rounded-[32px] bg-gradient-to-b from-navy-3 to-ink">
             <div className="absolute inset-x-0 top-0 h-2/3 bg-[radial-gradient(circle_at_50%_30%,rgba(232,199,102,.35),transparent_65%)]" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/ds-export-logo.webp" alt="DS EXPORT" width={1080} height={720} className="relative mx-auto w-full pb-24" />
+            <img src="/brand/ds-export-logo-transparent.webp" alt="DS EXPORT" width={970} height={380} className="relative mx-auto w-[86%] pb-32 pt-16" />
             <div className="glass absolute inset-x-4 bottom-4 rounded-2xl p-4">
               <p className="font-display text-xl font-bold">{t.hero.name}</p>
               <p className="text-sm text-gold-light">{t.hero.role}</p>

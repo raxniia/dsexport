@@ -299,7 +299,7 @@ function Login() {
       <form onSubmit={submit} className="w-full max-w-sm rounded-[28px] bg-cream p-7 text-ink shadow-2xl">
         <div className="flex items-center gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/ds-export-logo-small.webp" alt="DS EXPORT" width={480} height={219} className="h-11 w-auto rounded-lg" />
+          <img src="/brand/icon-round.png" alt="DS EXPORT" width={44} height={44} className="h-11 w-11 rounded-full" />
           <div><p className="font-display text-lg font-bold">DS EXPORT</p><p className="text-xs text-muted">Espace administrateur</p></div>
         </div>
         <h1 className="mt-6 text-xl font-bold">{mode === "login" ? "Connexion" : mode === "signup" ? "Créer le compte admin" : "Mot de passe oublié"}</h1>
@@ -393,7 +393,7 @@ function Dashboard({ email }: { email: string }) {
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3">
           <a href="/" className="flex items-center gap-2.5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/ds-export-logo-small.webp" alt="DS EXPORT" width={480} height={219} className="h-9 w-auto rounded-md" />
+            <img src="/brand/icon-round.png" alt="DS EXPORT" width={36} height={36} className="h-9 w-9 rounded-full" />
             <span className="font-display font-bold">Admin <span className="gold-text">DS EXPORT</span></span>
           </a>
           <div className="flex items-center gap-2 text-sm">
